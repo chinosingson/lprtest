@@ -40,3 +40,8 @@ sites/simpletest
 
 # Ignore SimpleTest multi-site environment.
 # simpletest
+
+*.sql
+*.mysql
+*.zip
+*.gzip
