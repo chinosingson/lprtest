@@ -1,0 +1,52 @@
+@import url("https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap");
+body {
+  font-family: "Lato", sans-serif !important;
+}
+body a, body p, body h1, body h2, body h3, body h4, body b, body span {
+  font-family: "Lato", sans-serif !important;
+}
+
+.menu--main ul {
+  padding: 0;
+  margin: 0;
+  display: flex;
+  justify-content: end;
+}
+.menu--main ul li.nav-item a.nav-link {
+  font-family: "Lato", Sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #87CB3B;
+  padding: 0px 15px 0px 15px;
+}
+
+.footer {
+  background-color: #000000;
+  padding-bottom: 0;
+}
+.footer p {
+  color: #fff;
+}
+.footer__left h2 {
+  color: #fff;
+}
+.footer__bottom {
+  background-color: #87cb3b;
+  padding: 20px 0;
+}
+.footer__bottom p {
+  color: #000000;
+  margin: 0;
+}
+
+.social-menu {
+  display: flex;
+  gap: 20px;
+  list-style: none;
+  margin-bottom: 0;
+  padding: 10px 0;
+}
+.social-menu__link {
+  color: #fff;
+}/*# sourceMappingURL=custom-new.css.map */

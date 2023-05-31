@@ -1,0 +1,26 @@
+name: ADB Theme
+type: theme
+description: This is a ADB Theme of Stable 9
+core_version_requirement: ^9 || ^10
+# Defines the base theme
+base theme: bootstrap4
+# Defines libraries group in which we can add CSS/JS.
+libraries:
+  - adb_theme/global-styling
+
+regions:
+  top_left: Top Left
+  top_search: Top Search
+  primary_menu: Primary Menu
+  banner: Banner
+  content_top: "Content Top"
+  content: Content
+  sidebar_first: "Sidebar first"
+  sidebar_second: "Sidebar second"
+  panel_first: "Panel first"
+  panel_second: "Panel second"
+  panel_third: "Panel third"
+  panel_fourth: "Panel fourth"
+  footer_left: "Footer left"
+  footer_right: "Footer right"
+  footer: "Footer Bottom"

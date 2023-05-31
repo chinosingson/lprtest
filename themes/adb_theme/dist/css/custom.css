@@ -1,0 +1,6 @@
+.messages--status a{
+    text-decoration: underline;
+}
+body.node-job .block-top-job-detail{
+    margin-top: 0;
+}

@@ -1,0 +1,62 @@
+article, aside, figcaption, figure, footer, header, hgroup, main, nav, section {
+}
+
+.navbar-light .navbar-nav .active > .nav-link, .navbar-light .navbar-nav .nav-link.active, .navbar-light .navbar-nav .nav-link.show, .navbar-light .navbar-nav .show > .nav-link {
+  color: #87CB3B;
+}
+
+.element-populated {
+  padding: 0px;
+}
+
+.top-header-container {
+  background-color: #87CB3B;
+  height: 40px;
+}
+
+.top-element-container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  margin-right: auto;
+  margin-left: auto;
+  position: relative;
+}
+
+.top-widget-container {
+  align-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.top-widget-wrap {
+  width: 100%;
+}
+
+.top-icon-list-items.top-inline-items {
+  margin-right: calc(-9px/2);
+  margin-left: calc(-9px/2);
+}
+
+.top-icon-list-item.top-inline-items {
+  margin-right: calc(9px/2);
+  margin-left: calc(9px/2);
+}
+
+.footer-width-fixer {
+  width: 100%;
+}
+
+.page-footer.dark .footer-copyright {
+  background-color: #87CB3B;
+  border-color: #222425;
+}
+
+.page-footer .footer-copyright p {
+  margin: 10px;
+  color: #000000 !important;
+  margin: 0px 0px 0px 0px;
+  font-size: 13px;
+  font-weight: 400;
+}
+

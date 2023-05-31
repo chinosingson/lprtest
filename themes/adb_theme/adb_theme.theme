@@ -1,0 +1,10 @@
+<?php
+
+function adb_theme_preprocess_page(&$variables) {
+  global $base_url, $base_path;
+  $variables['logo'] = $base_url . '/' . drupal_get_path('theme','adb_theme') . '/assets/img/lpr-logo.png';
+
+  ##Uncomment this if you want to use png instead of svg image
+  //$variables['logo'] = str_replace('.svg', '.png', $variables['logo']);
+}
+
