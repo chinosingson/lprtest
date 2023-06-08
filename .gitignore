@@ -32,7 +32,7 @@ sites/simpletest
 # or delete the previous settings and uncomment the following ones, instead.
 
 # Ignore configuration files that may contain sensitive information.
-*/settings*.php
+# */settings*.php
 
 # Ignore paths that contain user-generated content.
 # */files
@@ -45,3 +45,6 @@ sites/simpletest
 *.mysql
 *.zip
 *.gzip
+sites/default/error_log
+error_log
+.user.ini
