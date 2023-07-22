@@ -3,11 +3,12 @@
 namespace Drupal\slick;
 
 use Drupal\Core\Security\TrustedCallbackInterface;
+use Drupal\blazy\BlazyManagerInterface;
 
 /**
  * Defines re-usable services and functions for slick plugins.
  */
-interface SlickManagerInterface extends TrustedCallbackInterface {
+interface SlickManagerInterface extends BlazyManagerInterface, TrustedCallbackInterface {
 
   /**
    * Returns a cacheable renderable array of a single slick instance.
@@ -39,6 +40,6 @@ interface SlickManagerInterface extends TrustedCallbackInterface {
    * @return array
    *   The renderable array of both main and thumbnail slick instances.
    */
-  public function build(array $build): array;
+  public function build(array $build = []);
 
 }

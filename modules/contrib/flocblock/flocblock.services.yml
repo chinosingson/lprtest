@@ -1,5 +1,0 @@
-services:
-  flocblock.response_subscriber:
-    class: Drupal\flocblock\EventSubscriber\ResponseSubscriber
-    tags:
-      - { name: event_subscriber }

@@ -29,7 +29,7 @@ class BlazyFormatterBlazy extends BlazyFileFormatterBase {
   /**
    * {@inheritdoc}
    */
-  public function buildElements(array &$build, $files, $langcode) {
+  public function buildElements(array &$build, $files) {
     foreach ($this->getElements($build, $files) as $delta => $element) {
       $build[] = $this->formatter->getBlazy($element, $delta);
     }

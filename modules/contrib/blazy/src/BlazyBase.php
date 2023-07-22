@@ -92,15 +92,7 @@ abstract class BlazyBase implements BlazyInterface {
   /**
    * Constructs a BlazyBase object.
    */
-  public function __construct(
-    $root,
-    EntityRepositoryInterface $entity_repository,
-    EntityTypeManagerInterface $entity_type_manager,
-    ModuleHandlerInterface $module_handler,
-    RendererInterface $renderer,
-    ConfigFactoryInterface $config_factory,
-    CacheBackendInterface $cache,
-    LanguageManager $language_manager) {
+  public function __construct($root, EntityRepositoryInterface $entity_repository, EntityTypeManagerInterface $entity_type_manager, ModuleHandlerInterface $module_handler, RendererInterface $renderer, ConfigFactoryInterface $config_factory, CacheBackendInterface $cache, LanguageManager $language_manager) {
     $this->root              = $root;
     $this->entityRepository  = $entity_repository;
     $this->entityTypeManager = $entity_type_manager;
@@ -128,104 +120,106 @@ abstract class BlazyBase implements BlazyInterface {
   }
 
   /**
-   * {@inheritdoc}
+   * Returns the app root.
    */
   public function root() {
     return $this->root;
   }
 
   /**
-   * {@inheritdoc}
-   */
-  public function entityRepository() {
-    return $this->entityRepository;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function entityTypeManager() {
-    return $this->entityTypeManager;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function moduleHandler() {
-    return $this->moduleHandler;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function renderer() {
-    return $this->renderer;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function configFactory() {
-    return $this->configFactory;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function cache() {
-    return $this->cache;
-  }
-
-  /**
-   * {@inheritdoc}
+   * Returns the language manager service.
    */
   public function languageManager() {
     return $this->languageManager;
   }
 
   /**
-   * {@inheritdoc}
+   * Returns the entity repository service.
    */
-  public function config($key = NULL, $group = 'blazy.settings') {
-    $config  = $this->configFactory->get($group);
+  public function entityRepository() {
+    return $this->entityRepository;
+  }
+
+  /**
+   * Returns the entity type manager service.
+   */
+  public function entityTypeManager() {
+    return $this->entityTypeManager;
+  }
+
+  /**
+   * Returns the module handler service.
+   */
+  public function moduleHandler() {
+    return $this->moduleHandler;
+  }
+
+  /**
+   * Returns the renderer service.
+   */
+  public function renderer() {
+    return $this->renderer;
+  }
+
+  /**
+   * Returns the config factory service.
+   */
+  public function configFactory() {
+    return $this->configFactory;
+  }
+
+  /**
+   * Returns the cache service.
+   */
+  public function cache() {
+    return $this->cache;
+  }
+
+  /**
+   * Returns any config, or keyed by the $setting_name.
+   */
+  public function config($setting_name = '', $settings = 'blazy.settings') {
+    $config  = $this->configFactory->get($settings);
     $configs = $config->get();
     unset($configs['_core']);
-    return empty($key) ? $configs : $config->get($key);
+    return empty($setting_name) ? $configs : $config->get($setting_name);
   }
 
   /**
-   * {@inheritdoc}
-   */
-  public function entityQuery($type, $conjunction = 'AND') {
-    return $this->getStorage($type)->getQuery($conjunction);
-  }
-
-  /**
-   * {@inheritdoc}
+   * Returns a shortcut for entity type storage.
    */
   public function getStorage($type = 'media') {
     return $this->entityTypeManager->getStorage($type);
   }
 
   /**
-   * {@inheritdoc}
+   * Returns the entity query object for this entity type.
+   */
+  public function entityQuery($type, $conjunction = 'AND') {
+    return $this->getStorage($type)->getQuery($conjunction);
+  }
+
+  /**
+   * Returns a shortcut for loading an entity: image_style, slick, etc.
    */
   public function load($id, $type = 'image_style') {
-    if (strpos($type, '.settings') !== FALSE) {
-      return $this->config($id, $type);
-    }
     return $this->getStorage($type)->load($id);
   }
 
   /**
-   * {@inheritdoc}
+   * Returns a shortcut for loading multiple entities.
    */
   public function loadMultiple($type = 'image_style', $ids = NULL) {
     return $this->getStorage($type)->loadMultiple($ids);
   }
 
   /**
-   * {@inheritdoc}
+   * Returns a shortcut for loading entity by its properties.
+   *
+   * The only difference from EntityStorageBase::loadByProperties() is the
+   * explicit access TRUE specific for content entities, FALSE config ones.
+   *
+   * @see https://www.drupal.org/node/3201242
    */
   public function loadByProperties(
     array $values,
@@ -245,7 +239,7 @@ abstract class BlazyBase implements BlazyInterface {
   }
 
   /**
-   * {@inheritdoc}
+   * Returns a shortcut for loading entity by its UUID.
    */
   public function loadByUuid($uuid, $type = 'file') {
     return $this->entityRepository->loadEntityByUuid($type, $uuid);

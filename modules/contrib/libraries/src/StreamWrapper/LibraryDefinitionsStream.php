@@ -3,8 +3,7 @@
 namespace Drupal\libraries\StreamWrapper;
 
 use Drupal\Core\StreamWrapper\LocalStream;
-use Drupal\Core\Config\ConfigFactoryInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
+use Drupal\Core\Config\ConfigFactory;
 
 /**
  * Provides a stream wrapper for library definitions.
@@ -44,20 +43,10 @@ class LibraryDefinitionsStream extends LocalStream {
   /**
    * Constructs an external library registry.
    *
-   * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
-   *   The config factory.
+   * @todo Dependency injection.
    */
-  public function __construct(ConfigFactoryInterface $config_factory) {
+  public function __construct(ConfigFactory $config_factory) {
     $this->configFactory = $config_factory;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public static function create(ContainerInterface $container) {
-    return new static(
-      $container->get('config.factory')
-    );
   }
 
   /**

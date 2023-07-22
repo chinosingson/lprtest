@@ -11,10 +11,8 @@
   'use strict';
 
   var _context = _doc;
-  var _id = 'photobox';
-  var _idOnce = 'b-' + _id;
-  var _element = '[data-' + _id + '-gallery]';
-  var _mounted = 'is-' + _id + '-mounted';
+  var _idOnce = 'b-photobox';
+  var _element = '[data-photobox-gallery]';
 
   /**
    * Blazy Photobox utility functions.
@@ -41,8 +39,6 @@
       thumb: '> [data-thumb]',
       thumbAttr: 'data-thumb'
     }, callback);
-
-    $.addClass(box, _mounted);
   }
 
   /**
@@ -65,7 +61,7 @@
         };
       }
 
-      $.once(process, _idOnce, _element + ':not(.' + _mounted + ')', _context);
+      $.once(process, _idOnce, _element, _context);
 
     },
     detach: function (context, setting, trigger) {

@@ -7,7 +7,6 @@ use Drupal\slick\SlickDefault;
 use Drupal\slick\Entity\Slick;
 use Drupal\Tests\blazy\Kernel\BlazyKernelTestBase;
 use Drupal\Tests\slick\Traits\SlickUnitTestTrait;
-use Drupal\Tests\slick\Traits\SlickKernelTrait;
 use PHPUnit\Framework\Exception as UnitException;
 
 /**
@@ -20,7 +19,6 @@ use PHPUnit\Framework\Exception as UnitException;
 class SlickCrudTest extends BlazyKernelTestBase {
 
   use SlickUnitTestTrait;
-  use SlickKernelTrait;
 
   /**
    * {@inheritdoc}

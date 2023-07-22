@@ -6,7 +6,6 @@ use Drupal\Component\Utility\Html;
 use Drupal\Core\Template\Attribute;
 use Drupal\blazy\Blazy;
 use Drupal\blazy\BlazyDefault;
-use Drupal\blazy\BlazyInternal;
 use Drupal\blazy\Media\Placeholder;
 use Drupal\blazy\Utility\Path;
 
@@ -76,8 +75,8 @@ class BlazyTheme {
 
     // Still provides a failsafe for direct call to theme_blazy().
     if (!$api) {
-      BlazyInternal::preSettings($settings);
-      BlazyInternal::prepare($settings, $item, $settings['delta'] ?? 0);
+      Blazy::preSettings($settings);
+      Blazy::prepare($settings, $item, $settings['delta'] ?? 0);
     }
 
     // Do not proceed if no URI is provided. URI is not Blazy theme property.
@@ -89,7 +88,7 @@ class BlazyTheme {
     // URL and dimensions are built out at BlazyManager::preRenderBlazy().
     // Still provides a failsafe for direct call to theme_blazy().
     if (!$api) {
-      BlazyInternal::prepared($attributes, $settings, $item);
+      Blazy::prepared($attributes, $settings, $item);
     }
 
     // Allows rich Media entities stored within `content` to take over.
@@ -115,11 +114,7 @@ class BlazyTheme {
   public static function field(array &$variables): void {
     $element = &$variables['element'];
     $settings = empty($element['#blazy']) ? [] : $element['#blazy'];
-
-    // D10 moves it into content.
-    if (!$settings) {
-      $settings = $variables['items'][0]['content']['#blazy'] ?? [];
-    }
+    $blazies = $settings['blazies'] ?? NULL;
 
     // 1. Hence Blazy is not the formatter, lacks of settings.
     if (!empty($element['#third_party_settings']['blazy']['blazy'])) {
@@ -127,7 +122,6 @@ class BlazyTheme {
     }
 
     // 2. Hence Blazy is the formatter, has its settings.
-    $blazies = $settings['blazies'] ?? NULL;
     if ($blazies && !$blazies->is('grid')) {
       BlazyAttribute::container($variables['attributes'], $settings);
     }
@@ -158,7 +152,7 @@ class BlazyTheme {
           $blazies = $settings['blazies'];
 
           if ($url = $blazies->get('image.url')) {
-            if (!$blazies->use('loader') && $use_dataset) {
+            if (!$blazies->get('use.loader') && $use_dataset) {
               $blazies->set('use.loader', TRUE);
             }
             $blazies->set('is.dimensions', TRUE);
@@ -190,8 +184,8 @@ class BlazyTheme {
     if (!isset($attributes['data-b-noscript'])) {
       // Modifies <picture> [data-srcset] attributes on <source> elements.
       if (!$variables['output_image_tag']) {
+        /** @var \Drupal\Core\Template\Attribute $source */
         if ($sources = ($variables['sources'] ?? [])) {
-          /** @var \Drupal\Core\Template\Attribute $source */
           foreach ((array) $sources as &$source) {
             $source->setAttribute('data-srcset', $source['srcset']->value());
             $source->setAttribute('srcset', '');
@@ -291,9 +285,6 @@ class BlazyTheme {
   private static function thirdPartyField(array &$variables): void {
     $element = $variables['element'];
     $settings = $element['#blazy'] ?? [];
-    if (!$settings) {
-      $settings = $variables['items'][0]['content']['#blazy'] ?? [];
-    }
 
     Blazy::verify($settings);
     $blazies = $settings['blazies'];

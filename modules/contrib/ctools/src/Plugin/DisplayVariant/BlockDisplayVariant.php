@@ -62,13 +62,6 @@ abstract class BlockDisplayVariant extends VariantBase implements ContextAwareVa
   protected $contexts = [];
 
   /**
-   * The condition manager.
-   *
-   * @var \Drupal\Core\Condition\ConditionManager
-   */
-  protected $conditionManager;
-
-  /**
    * Constructs a new BlockDisplayVariant.
    *
    * @param array $configuration

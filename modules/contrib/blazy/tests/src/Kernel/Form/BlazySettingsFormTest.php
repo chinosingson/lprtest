@@ -23,13 +23,6 @@ class BlazySettingsFormTest extends KernelTestBase {
   protected $defaultTheme = 'stark';
 
   /**
-   * The blazy manager service.
-   *
-   * @var \Drupal\blazy\BlazyManagerInterface
-   */
-  protected $blazyManager;
-
-  /**
    * The Blazy form object under test.
    *
    * @var \Drupal\blazy_ui\Form\BlazySettingsForm
@@ -83,7 +76,7 @@ class BlazySettingsFormTest extends KernelTestBase {
     ]);
 
     $this->assertInstanceOf(FormInterface::class, $this->blazySettingsForm);
-    $this->assertTrue($this->blazyManager->configFactory()->get('blazy.settings')->get('admin_css'));
+    $this->assertTrue($this->blazyManager->getConfigFactory()->get('blazy.settings')->get('admin_css'));
 
     $id = $this->blazySettingsForm->getFormId();
     $this->assertEquals('blazy_settings_form', $id);

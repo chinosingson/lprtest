@@ -119,7 +119,7 @@ class SlickFilter extends BlazyFilterBase {
   /**
    * Build the slick.
    */
-  private function build($object, array $settings): array {
+  private function build($object, array $settings) {
     $dataset = $object->getAttribute('data');
     $blazies = $settings['blazies'] ?? NULL;
 

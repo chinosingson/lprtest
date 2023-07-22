@@ -36,13 +36,6 @@ class WizardFormController extends FormController {
   protected $dispatcher;
 
   /**
-   * The wizard factory.
-   *
-   * @var \Drupal\ctools\Wizard\WizardFactoryInterface
-   */
-  protected $wizardFactory;
-
-  /**
    * @param \Symfony\Component\HttpKernel\Controller\ArgumentResolverInterface $argument_resolver
    *   The argument resolver.
    * @param \Drupal\Core\Form\FormBuilderInterface $form_builder

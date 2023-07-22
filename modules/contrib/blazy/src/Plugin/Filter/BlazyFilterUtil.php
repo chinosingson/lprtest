@@ -5,7 +5,7 @@ namespace Drupal\blazy\Plugin\Filter;
 use Drupal\Component\Utility\Crypt;
 use Drupal\blazy\Blazy;
 use Drupal\blazy\Theme\Grid;
-use Drupal\blazy\Utility\Sanitize;
+use Drupal\blazy\Theme\BlazyAttribute;
 
 /**
  * Provides shared filter utilities.
@@ -215,7 +215,7 @@ class BlazyFilterUtil {
         $attributes[$name] = ($name == 'class') ? [$value] : $value;
       }
     }
-    return $attributes ? Sanitize::attribute($attributes) : [];
+    return $attributes ? BlazyAttribute::sanitize($attributes) : [];
   }
 
   /**

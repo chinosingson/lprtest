@@ -4,7 +4,7 @@ namespace Drupal\blazy\Utility;
 
 use Drupal\blazy\Blazy;
 use Drupal\blazy\BlazyDefault;
-use Drupal\blazy\BlazyInternal;
+use Drupal\blazy\BlazyEntity;
 use Drupal\blazy\Media\Preloader;
 use Drupal\blazy\Theme\BlazyViews;
 use Drupal\blazy\Theme\Grid;
@@ -12,10 +12,6 @@ use Drupal\blazy\Theme\Lightbox;
 
 /**
  * Provides feature check methods at container level, or globally.
- *
- * @internal
- *   This is an internal part of the Blazy system and should only be used by
- *   blazy-related code in Blazy module.
  *
  * @todo refine, and split them conditionally based on fields like libraries.
  * @todo remove most $settings once migrated and after sub-modules and tests.
@@ -28,7 +24,7 @@ class Check {
    * @todo move it out of here for all attachments, what folder, Asset?
    */
   public static function attachments(array &$load, array &$attach = []): void {
-    BlazyInternal::postSettings($attach);
+    Blazy::postSettings($attach);
 
     if (!($manager = Blazy::service('blazy.manager'))) {
       return;
@@ -43,7 +39,7 @@ class Check {
     }
 
     // Always keep Drupal UI config to support dynamic compat features.
-    $config = $manager->config('blazy');
+    $config = $manager->configLoad('blazy');
     $config['loader'] = !$unload;
     $config['unblazy'] = $unblazy;
 
@@ -90,7 +86,7 @@ class Check {
 
     // Adds AJAX helper to revalidate Blazy/ IO, if using VIS, or alike.
     // @todo remove when VIS detaches behaviors properly like IO.
-    if ($blazies->use('ajax', FALSE)) {
+    if ($blazies->get('use.ajax', FALSE)) {
       $load['library'][] = 'blazy/bio.ajax';
     }
 
@@ -171,7 +167,7 @@ class Check {
    * Checks for Blazy formatter such as from within a Views style plugin.
    *
    * @see \Drupal\blazy\Blazy::preserve()
-   * @see \Drupal\blazy\BlazyManager::isBlazy()
+   * @see \Drupal\blazy\BlazyManagerInterface::isBlazy()
    */
   public static function blazyOrNot(array &$settings, array $data = []): void {
     // Retrieves Blazy formatter related settings from within Views style.
@@ -203,7 +199,7 @@ class Check {
 
     // Makes this container aware of Blazy formatter it might contain.
     if ($blazy) {
-      BlazyInternal::preserve($settings, $blazy);
+      Blazy::preserve($settings, $blazy);
     }
 
     // No longer needed once extracted above, remove.
@@ -220,7 +216,7 @@ class Check {
     $settings = &$build['settings'];
     $entity   = $items->getEntity();
 
-    Blazy::entitySettings($settings, $entity);
+    BlazyEntity::settings($settings, $entity);
 
     $blazies    = $settings['blazies'];
     $field      = $items->getFieldDefinition();
@@ -259,15 +255,13 @@ class Check {
     $blazies->set('cache.keys', [$id, $count], TRUE);
     $blazies->set('cache.tags', [$entity_type_id . ':' . $entity_id], TRUE);
 
-    $settings['use_theme_field'] = $use_field || !empty($settings['use_theme_field']);
-
     // @todo remove.
     $settings['count'] = $count;
     $settings['id'] = $id;
 
     $blazies->set('count', $count)
       ->set('css.id', $id)
-      ->set('use.theme_field', $settings['use_theme_field'])
+      ->set('use.theme_field', $use_field || !empty($settings['use_theme_field']))
       ->set('was.field', TRUE);
   }
 
@@ -405,9 +399,9 @@ class Check {
 
     // Respects colorbox settings unless for an explicit field/ view gallery.
     if (!$is_gallery
-      && $blazies->get('colorbox')
+      && $colorbox
       && function_exists('colorbox_theme')) {
-      $is_gallery = (bool) $manager->config('custom.slideshow.slideshow', 'colorbox.settings');
+      $is_gallery = (bool) $manager->configLoad('custom.slideshow.slideshow', 'colorbox.settings');
     }
 
     // Re-define based on potential hook_alter().

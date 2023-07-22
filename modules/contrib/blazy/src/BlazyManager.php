@@ -5,17 +5,17 @@ namespace Drupal\blazy;
 use Drupal\Component\Utility\NestedArray;
 use Drupal\Core\Security\TrustedCallbackInterface;
 use Drupal\Core\Template\Attribute;
+use Drupal\blazy\Theme\BlazyAttribute;
 use Drupal\blazy\Cache\BlazyCache;
 use Drupal\blazy\Theme\Lightbox;
 use Drupal\blazy\Utility\CheckItem;
-use Drupal\blazy\Utility\Sanitize;
 
 /**
  * Implements a public facing blazy manager.
  *
  * A few modules re-use this: GridStack, Mason, Slick...
  */
-class BlazyManager extends BlazyManagerBase implements BlazyManagerInterface, TrustedCallbackInterface {
+class BlazyManager extends BlazyManagerBase implements TrustedCallbackInterface {
 
   /**
    * {@inheritdoc}
@@ -25,9 +25,19 @@ class BlazyManager extends BlazyManagerBase implements BlazyManagerInterface, Tr
   }
 
   /**
-   * {@inheritdoc}
+   * Returns the enforced rich media content, or media using theme_blazy().
+   *
+   * @param array $build
+   *   The array containing: item, content, settings, or optional captions.
+   * @param int $delta
+   *   The optional delta.
+   *
+   * @return array
+   *   The alterable and renderable array of enforced content, or theme_blazy().
+   *
+   * @todo remove some $settings after sub-modules.
    */
-  public function getBlazy(array $build, $delta = -1): array {
+  public function getBlazy(array $build = [], $delta = -1) {
     foreach (BlazyDefault::themeProperties() as $key) {
       $build[$key] = $build[$key] ?? [];
     }
@@ -59,9 +69,15 @@ class BlazyManager extends BlazyManagerBase implements BlazyManagerInterface, Tr
   }
 
   /**
-   * {@inheritdoc}
+   * Builds the Blazy image as a structured array ready for ::renderer().
+   *
+   * @param array $element
+   *   The pre-rendered element.
+   *
+   * @return array
+   *   The renderable array of pre-rendered element.
    */
-  public function preRenderBlazy(array $element): array {
+  public function preRenderBlazy(array $element) {
     $build = $element['#build'];
     unset($element['#build']);
 
@@ -95,7 +111,7 @@ class BlazyManager extends BlazyManagerBase implements BlazyManagerInterface, Tr
    * @return array
    *   The alterable and renderable array of contents.
    */
-  public function build(array $build): array {
+  public function build(array $build = []) {
     $settings = &$build['settings'];
     Blazy::verify($settings);
 
@@ -112,11 +128,12 @@ class BlazyManager extends BlazyManagerBase implements BlazyManagerInterface, Tr
       ];
 
       // Yet allows theme_field(), if so required, such as for linked_field.
-      $build = $blazies->use('theme_field') ? [$content] : $content;
+      $build = $blazies->get('use.theme_field') ? [$content] : $content;
     }
     else {
       // If not a grid, pass items as regular index children to theme_field().
       $settings = $this->getSettings($build);
+      Blazy::verify($settings);
 
       // Runs after ::getSettings.
       $this->toElementChildren($build);
@@ -150,7 +167,7 @@ class BlazyManager extends BlazyManagerBase implements BlazyManagerInterface, Tr
 
     if ($attributes) {
       // Signals other modules if they want to use it.
-      // Cannot merge it into Grid (wrapper_)attributes, done as grid.
+      // Cannot merge it into BlazyGrid (wrapper_)attributes, done as grid.
       // Use case: Product variations, best served by ElevateZoom Plus.
       if (isset($element['#ajax_replace_class'])) {
         $element['#container_attributes'] = $attributes;
@@ -239,7 +256,7 @@ class BlazyManager extends BlazyManagerBase implements BlazyManagerInterface, Tr
     // (Responsive) image with item attributes, might be RDF.
     $item_attributes = empty($build['item_attributes'])
       ? []
-      : Sanitize::attribute($build['item_attributes']);
+      : BlazyAttribute::sanitize($build['item_attributes']);
 
     // Extract field item attributes for the theme function, and unset them
     // from the $item so that the field template does not re-render them.
@@ -281,11 +298,9 @@ class BlazyManager extends BlazyManagerBase implements BlazyManagerInterface, Tr
    */
   private function getSettings(array &$build) {
     $settings = $build['settings'] ?? [];
+    $blazies = $settings['blazies'] ?? NULL;
 
-    Blazy::verify($settings);
-    $blazies = $settings['blazies'];
-
-    if ($data = $blazies->get('first.data')) {
+    if ($blazies && $data = $blazies->get('first.data')) {
       if (is_array($data)) {
         $this->isBlazy($settings, $data);
       }
@@ -319,12 +334,12 @@ class BlazyManager extends BlazyManagerBase implements BlazyManagerInterface, Tr
     $attributes = &$build['attributes'];
 
     // Initial feature checks, URI, delta, media features, etc.
-    BlazyInternal::prepare($settings, $item);
+    Blazy::prepare($settings, $item);
 
     // Build thumbnail and optional placeholder based on thumbnail.
     // Prepare image URL and its dimensions, including for rich-media content,
     // such as for local video poster image if a poster URI is provided.
-    BlazyInternal::prepared($attributes, $settings, $item);
+    Blazy::prepared($attributes, $settings, $item);
 
     // Only process (Responsive) image/ video if no rich-media are provided.
     $this->buildContent($element, $build);
@@ -337,7 +352,7 @@ class BlazyManager extends BlazyManagerBase implements BlazyManagerInterface, Tr
     // theme_gridstack_box(), theme_slick_slide(), etc. Likely for Blazy 3.x+.
     foreach (['caption', 'media', 'wrapper'] as $key) {
       $element["#$key" . '_attributes'] = empty($build[$key . '_attributes'])
-        ? [] : Sanitize::attribute($build[$key . '_attributes']);
+        ? [] : BlazyAttribute::sanitize($build[$key . '_attributes']);
     }
 
     // Provides captions, if so configured.
@@ -358,9 +373,7 @@ class BlazyManager extends BlazyManagerBase implements BlazyManagerInterface, Tr
     // or lightbox links or iframe over image or CSS background over noscript
     // which cannot be simply dumped as array without elaborate arrangements).
     foreach (['content', 'icon', 'overlay', 'preface', 'postscript'] as $key) {
-      $element["#$key"] = empty($element["#$key"])
-        ? $build[$key]
-        : NestedArray::mergeDeep($element["#$key"], $build[$key]);
+      $element["#$key"] = empty($element["#$key"]) ? $build[$key] : NestedArray::mergeDeep($element["#$key"], $build[$key]);
     }
   }
 

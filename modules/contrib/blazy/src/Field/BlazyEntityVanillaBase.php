@@ -42,7 +42,7 @@ abstract class BlazyEntityVanillaBase extends EntityReferenceFormatterBase {
       // Add the entity to cache dependencies so to clear when it is updated.
       if (!empty($build['items'][$delta])) {
         $this->formatter
-          ->renderer()
+          ->getRenderer()
           ->addCacheableDependency($build['items'][$delta], $entity);
       }
 
@@ -60,7 +60,7 @@ abstract class BlazyEntityVanillaBase extends EntityReferenceFormatterBase {
     // Sub-modules always flag `vanilla` as required, -- configurable, or not.
     // The "paragraphs_type" entity type did not specify a view_builder handler.
     if (!empty($settings['vanilla'])) {
-      $manager = $this->formatter->entityTypeManager();
+      $manager = $this->formatter->getEntityTypeManager();
       $type = $entity->getEntityTypeId();
 
       if ($manager->hasHandler($type, 'view_builder')) {
@@ -95,9 +95,8 @@ abstract class BlazyEntityVanillaBase extends EntityReferenceFormatterBase {
   protected function getAvailableBundles(): array {
     $target_type = $this->getFieldSetting('target_type');
     $views_ui    = $this->getFieldSetting('handler') == 'default';
-    $handlers    = $this->getFieldSetting('handler_settings');
-    $targets     = $handlers ? $handlers['target_bundles'] : [];
-    $bundles     = $views_ui ? [] : $targets;
+    $bundles     = $views_ui
+      ? [] : $this->getFieldSetting('handler_settings')['target_bundles'];
 
     // Fix for Views UI not recognizing Media bundles, unlike Formatters.
     if (empty($bundles)

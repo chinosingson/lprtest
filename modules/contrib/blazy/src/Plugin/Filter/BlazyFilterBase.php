@@ -208,16 +208,9 @@ abstract class BlazyFilterBase extends TextFilterBase implements BlazyFilterInte
   }
 
   /**
-   * Returns the faked image item from SRC.
-   *
-   * @param array $build
-   *   The content array being modified: item, settings.
-   * @param object $node
-   *   The HTML DOM object.
-   * @param string $src
-   *   The corrected SRC value.
+   * {@inheritdoc}
    */
-  protected function getImageItemFromImageSrc(array &$build, $node, $src): void {
+  public function getImageItemFromImageSrc(array &$build, $node, $src) {
     $settings = &$build['settings'];
     $blazies = $settings['blazies'];
     // Attempts to get the correct URI with hard-coded URL if applicable.
@@ -252,16 +245,9 @@ abstract class BlazyFilterBase extends TextFilterBase implements BlazyFilterInte
   }
 
   /**
-   * Returns the faked image item from SRC.
-   *
-   * @param array $build
-   *   The content array being modified: item, settings.
-   * @param object $node
-   *   The HTML DOM object.
-   * @param string $src
-   *   The corrected SRC value.
+   * {@inheritdoc}
    */
-  protected function getImageItemFromIframeSrc(array &$build, &$node, $src): void {
+  public function getImageItemFromIframeSrc(array &$build, &$node, $src) {
     $settings = &$build['settings'];
     $blazies = $settings['blazies'];
 

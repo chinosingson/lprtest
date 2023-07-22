@@ -5,11 +5,12 @@ namespace Drupal\slick;
 use Drupal\Component\Utility\NestedArray;
 use Drupal\slick\Entity\Slick;
 use Drupal\blazy\Blazy;
+use Drupal\blazy\BlazyGrid;
 use Drupal\blazy\BlazyManagerBase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * Provides slick manager.
+ * Implements BlazyManagerInterface, SlickManagerInterface.
  */
 class SlickManager extends BlazyManagerBase implements SlickManagerInterface {
 
@@ -103,7 +104,6 @@ class SlickManager extends BlazyManagerBase implements SlickManagerInterface {
     $settings += SlickDefault::htmlSettings();
     $defaults  = Slick::defaultSettings();
     $optionset = $build['optionset'];
-    $slicks    = $settings['slicks'] ?? NULL;
 
     // Adds helper class if thumbnail on dots hover provided.
     if (!empty($settings['thumbnail_effect']) && (!empty($settings['thumbnail_style']) || !empty($settings['thumbnail']))) {
@@ -135,7 +135,7 @@ class SlickManager extends BlazyManagerBase implements SlickManagerInterface {
 
     // Checks for breaking changes: Slick 1.8.1 - 1.9.0 / Accessible Slick.
     // @todo Remove this once the library has permanent solutions.
-    if ($slicks && $slicks->is('breaking')) {
+    if (!empty($settings['breaking'])) {
       if ($optionset->getSetting('rows') == 1) {
         $js['rows'] = 0;
       }
@@ -249,7 +249,7 @@ class SlickManager extends BlazyManagerBase implements SlickManagerInterface {
       unset($slide);
     }
 
-    $result = $this->toGrid($output, $settings);
+    $result = $this->grid($output, $settings);
 
     $result['#attributes']['class'][] = empty($settings['unslick']) ? 'slide__content' : 'slick__grid';
 
@@ -265,13 +265,18 @@ class SlickManager extends BlazyManagerBase implements SlickManagerInterface {
    * @todo remove and call self::toGrid() directly post Blazy:2.10.
    */
   public function grid(array $output, array $settings): array {
-    return $this->toGrid($output, $settings);
+    // @todo remove check post Blazy 2.10.
+    if (method_exists($this, 'toGrid')) {
+      return $this->toGrid($output, $settings);
+    }
+
+    return BlazyGrid::build($output, $settings);
   }
 
   /**
    * {@inheritdoc}
    */
-  public function build(array $build): array {
+  public function build(array $build = []) {
     foreach (SlickDefault::themeProperties() as $key) {
       $build[$key] = $build[$key] ?? [];
     }
@@ -336,7 +341,10 @@ class SlickManager extends BlazyManagerBase implements SlickManagerInterface {
     $settings += SlickDefault::htmlSettings();
     $options   = &$build['options'];
 
-    Blazy::verify($settings);
+    // @todo remove check post Blazy:2.10.
+    if (method_exists(Blazy::class, 'verify')) {
+      Blazy::verify($settings);
+    }
 
     $optionset = Slick::verifyOptionset($build, $settings['optionset']);
     $blazies   = $settings['blazies'] ?? NULL;
@@ -415,7 +423,7 @@ class SlickManager extends BlazyManagerBase implements SlickManagerInterface {
       $optionset->whichLazy($settings);
     }
 
-    // @todo remove settings after migration.
+    // @tdo remove settings after migration.
     $settings['mousewheel'] = $wheel;
     $settings['down_arrow'] = $down_arrow = $optionset->getSetting('downArrow');
 
