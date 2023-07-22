@@ -2231,7 +2231,7 @@ abstract class DisplayPluginBase extends PluginBase implements DisplayPluginInte
     $element['#feed_icons'] = !empty($view->feedIcons) ? $view->feedIcons : [];
 
     if ($view->display_handler->renderPager()) {
-      $exposed_input = $view->getExposedInput();
+      $exposed_input = $view->exposed_raw_input ?? NULL;
       $element['#pager'] = $view->renderPager($exposed_input);
     }
 

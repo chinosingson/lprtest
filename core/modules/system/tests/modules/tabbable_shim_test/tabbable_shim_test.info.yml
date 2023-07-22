@@ -2,4 +2,9 @@ name: 'Tabbable Shim Test'
 type: module
 description: 'Module for the testing the :tabbable selector shim'
 package: Testing
-version: VERSION
+# version: VERSION
+
+# Information added by Drupal.org packaging script on 2023-02-01
+version: '9.5.3'
+project: 'drupal'
+datestamp: 1675281916

@@ -1436,7 +1436,7 @@ function template_preprocess_page(&$variables) {
     $variables['db_is_active'] = FALSE;
   }
 
-  if (($node = \Drupal::routeMatch()->getParameter('node')) || ($node = \Drupal::routeMatch()->getParameter('node_preview'))) {
+  if ($node = \Drupal::routeMatch()->getParameter('node')) {
     $variables['node'] = $node;
   }
 }

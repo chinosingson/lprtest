@@ -285,9 +285,7 @@ class HtmlRenderer implements MainContentRendererInterface {
     }
 
     // Allow hooks to add attachments to $page['#attached'].
-    $this->renderer->executeInRenderContext(new RenderContext(), function () use (&$page) {
-      $this->invokePageAttachmentHooks($page);
-    });
+    $this->invokePageAttachmentHooks($page);
 
     return [$page, $title];
   }

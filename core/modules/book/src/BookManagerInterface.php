@@ -183,23 +183,15 @@ interface BookManagerInterface {
   public function updateOutline(NodeInterface $node);
 
   /**
-   * Saves a link for a single book entry to the book.
+   * Saves a single book entry.
    *
    * @param array $link
-   *   The link data to save. $link['nid'] must be set. Other keys in this array
-   *   get default values from
-   *   \Drupal\book\BookManagerInterface::getLinkDefaults(). The array keys
-   *   available to be set are documented in
-   *   \Drupal\book\BookOutlineStorageInterface::loadMultiple().
+   *   The link data to save.
    * @param bool $new
-   *   Whether this is a link to a new book entry.
+   *   Is this a new book.
    *
    * @return array
-   *   The book entry link information. This is $link with values added or
-   *   updated.
-   *
-   * @see \Drupal\book\BookManagerInterface::getLinkDefaults()
-   * @see \Drupal\book\BookOutlineStorageInterface::loadMultiple()
+   *   The book data of that node.
    */
   public function saveBookLink(array $link, $new);
 

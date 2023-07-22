@@ -2,4 +2,9 @@ name: 'JS Errors test'
 description: 'Provides a JavaScript error that can be used for tests'
 type: module
 package: Testing
-version: VERSION
+# version: VERSION
+
+# Information added by Drupal.org packaging script on 2023-02-01
+version: '9.5.3'
+project: 'drupal'
+datestamp: 1675281916

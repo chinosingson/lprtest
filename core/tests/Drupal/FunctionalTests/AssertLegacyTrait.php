@@ -4,6 +4,7 @@ namespace Drupal\FunctionalTests;
 
 use Behat\Mink\Element\NodeElement;
 use Behat\Mink\Exception\ExpectationException;
+use Behat\Mink\Selector\Xpath\Escaper;
 use Drupal\Component\Render\FormattableMarkup;
 use Drupal\Component\Utility\Xss;
 use Drupal\KernelTests\AssertLegacyTrait as BaseAssertLegacyTrait;
@@ -758,7 +759,7 @@ trait AssertLegacyTrait {
             // Input element with correct value.
             $found = TRUE;
           }
-          elseif ($field->find('xpath', '//option[@value = ' . $value . ' and @selected = "selected"]')) {
+          elseif ($field->find('xpath', '//option[@value = ' . (new Escaper())->escapeLiteral($value) . ' and @selected = "selected"]')) {
             // Select element with an option.
             $found = TRUE;
           }

@@ -4,7 +4,6 @@ namespace Drupal\views_ui;
 
 use Drupal\Component\Utility\Html;
 use Drupal\Component\Utility\Timer;
-use Drupal\Component\Utility\Xss;
 use Drupal\Core\EventSubscriber\AjaxResponseSubscriber;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Link;
@@ -277,10 +276,9 @@ class ViewUI implements ViewEntityInterface {
   }
 
   /**
-   * Provides a standard set of Apply/Cancel/OK buttons for the forms.
-   *
-   * This will also provide a hidden op operator because the forms plugin
-   * doesn't seem to properly provide which button was clicked.
+   * Provide a standard set of Apply/Cancel/OK buttons for the forms. Also provide
+   * a hidden op operator because the forms plugin doesn't seem to properly
+   * provide which button was clicked.
    *
    * TODO: Is the hidden op operator still here somewhere, or is that part of the
    * docblock outdated?
@@ -382,9 +380,8 @@ class ViewUI implements ViewEntityInterface {
   }
 
   /**
-   * Adds another form to the stack.
-   *
-   * Clicking 'apply' will go to this form rather than closing the ajax popup.
+   * Add another form to the stack; clicking 'apply' will go to this form
+   * rather than closing the ajax popup.
    */
   public function addFormToStack($key, $display_id, $type, $id = NULL, $top = FALSE, $rebuild_keys = FALSE) {
     // Reset the cache of IDs. Drupal rather aggressively prevents ID
@@ -700,7 +697,6 @@ class ViewUI implements ViewEntityInterface {
               [
                 'data' => [
                   '#markup' => $executable->getTitle(),
-                  '#allowed_tags' => Xss::getHtmlTagList(),
                 ],
               ],
             ];

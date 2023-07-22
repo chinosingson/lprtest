@@ -526,10 +526,6 @@
         // the state.
         return this.val() === '';
       },
-      // Listen to 'change' for number native "spinner" widgets.
-      change() {
-        return this.val() === '';
-      },
     },
 
     checked: {
@@ -683,6 +679,7 @@
     // element monitoring itself.
     if (e.trigger) {
       $(e.target)
+        .prop('disabled', e.value)
         .closest('.js-form-item, .js-form-submit, .js-form-wrapper')
         .toggleClass('form-disabled', e.value)
         .find('select, input, textarea')
@@ -725,11 +722,7 @@
 
   $document.on('state:checked', (e) => {
     if (e.trigger) {
-      $(e.target)
-        .closest('.js-form-item, .js-form-wrapper')
-        .find('input')
-        .prop('checked', e.value)
-        .trigger('change');
+      $(e.target).prop('checked', e.value);
     }
   });
 

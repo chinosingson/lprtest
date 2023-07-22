@@ -2,4 +2,9 @@ name: 'Module install class loader test1'
 description: 'Support module for tests that the class loader behaves as expected during module install.'
 type: module
 package: Testing
-version: VERSION
+# version: VERSION
+
+# Information added by Drupal.org packaging script on 2023-02-01
+version: '9.5.3'
+project: 'drupal'
+datestamp: 1675281916

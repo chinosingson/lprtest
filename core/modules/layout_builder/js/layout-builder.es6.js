@@ -43,16 +43,9 @@
          *   The link to add the block.
          */
         const toggleBlockEntry = (index, link) => {
-          const $link = $(link);
           const textMatch =
             link.textContent.toLowerCase().indexOf(query) !== -1;
-          // Checks if a category is currently hidden.
-          // Toggles the category on if so.
-          if ($link.closest('.js-layout-builder-category').is(':hidden')) {
-            $link.closest('.js-layout-builder-category').show();
-          }
-          // Toggle the li tag of the matching link.
-          $link.parent().toggle(textMatch);
+          $(link).toggle(textMatch);
         };
 
         // Filter if the length of the query is at least 2 characters.
@@ -89,17 +82,15 @@
             .find('.js-layout-builder-category[remember-closed]')
             .removeAttr('open')
             .removeAttr('remember-closed');
-          // Show all categories since filter is turned off.
           $categories.find('.js-layout-builder-category').show();
-          // Show all li tags since filter is turned off.
-          $filterLinks.parent().show();
+          $filterLinks.show();
           announce(Drupal.t('All available blocks are listed.'));
         }
       };
 
       $(
         once('block-filter-text', 'input.js-layout-builder-filter', context),
-      ).on('input', debounce(filterBlockList, 200));
+      ).on('keyup', debounce(filterBlockList, 200));
     },
   };
 
