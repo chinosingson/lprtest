@@ -5,12 +5,12 @@
  * bootstrap5 theme file.
  */
 
-use Drupal\block\Entity\Block;
-use Drupal\bootstrap5\SettingsManager;
-use Drupal\bootstrap5\SubthemeManager;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Render\Element;
+use Drupal\bootstrap5\SettingsManager;
+use Drupal\bootstrap5\SubthemeManager;
 use Drupal\views\ViewExecutable;
+use Drupal\block\Entity\Block;
 
 /**
  * Implements hook_theme_suggestions_HOOK_alter().
@@ -129,24 +129,9 @@ function bootstrap5_preprocess_menu_local_task(&$variables) {
 }
 
 /**
- * Callback to convert attributes class which is string to array.
- *
- * @param array $variables
- *   The variables to render from preprocess function.
- */
-function _bootstrap5_attributes_class_string_to_array(&$variables) {
-  if (isset($variables['attributes']) &&
-    isset($variables['attributes']['class']) &&
-    !is_array($variables['attributes']['class'])) {
-    $variables['attributes']['class'] = [$variables['attributes']['class']];
-  }
-}
-
-/**
  * Implements theme_preprocess_textarea().
  */
 function bootstrap5_preprocess_textarea(&$variables) {
-  _bootstrap5_attributes_class_string_to_array($variables);
   $variables['attributes']['class'][] = 'form-control';
 }
 
@@ -154,7 +139,6 @@ function bootstrap5_preprocess_textarea(&$variables) {
  * Implements template_preprocess_HOOK() for input.
  */
 function bootstrap5_preprocess_input(&$variables) {
-  _bootstrap5_attributes_class_string_to_array($variables);
 
   $type_html = $variables['attributes']['type'];
   $text_types_html = [
@@ -167,8 +151,6 @@ function bootstrap5_preprocess_input(&$variables) {
     'url',
     'month',
     'week',
-    'date',
-    'time',
   ];
 
   if (in_array($type_html, $text_types_html)) {
@@ -184,7 +166,6 @@ function bootstrap5_preprocess_input(&$variables) {
  * Implements theme_preprocess_datetime_form().
  */
 function bootstrap5_preprocess_datetime_form(&$variables) {
-  _bootstrap5_attributes_class_string_to_array($variables);
   $variables['attributes']['class'][] = 'form-inline';
 }
 
@@ -192,7 +173,6 @@ function bootstrap5_preprocess_datetime_form(&$variables) {
  * Implements theme_preprocess_views_ui_display_tab_setting().
  */
 function bootstrap5_preprocess_views_ui_display_tab_setting(&$variables) {
-  _bootstrap5_attributes_class_string_to_array($variables);
   $variables['attributes']['class'][] = 'my-1';
 }
 
@@ -200,7 +180,6 @@ function bootstrap5_preprocess_views_ui_display_tab_setting(&$variables) {
  * Implements theme_preprocess_views_ui_display_tab_bucket().
  */
 function bootstrap5_preprocess_views_ui_display_tab_bucket(&$variables) {
-  _bootstrap5_attributes_class_string_to_array($variables);
   $variables['attributes']['class'][] = 'my-2';
 }
 
@@ -208,27 +187,18 @@ function bootstrap5_preprocess_views_ui_display_tab_bucket(&$variables) {
  * Implements theme_preprocess_image().
  */
 function bootstrap5_preprocess_image(&$variables) {
-  _bootstrap5_attributes_class_string_to_array($variables);
+  if (!empty($variables['attributes']['class']) && is_string($variables['attributes']['class'])) {
+    $variables['attributes']['class'] = [$variables['attributes']['class']];
+  }
   $variables['attributes']['class'][] = 'img-fluid';
 }
 
 /**
  * Callback to add standard table classes.
  *
- * @see https://getbootstrap.com/docs/5.2/content/tables/
+ * @see https://getbootstrap.com/docs/5.1/content/tables/
  */
 function bootstrap5_add_table_variables(&$variables) {
-  _bootstrap5_attributes_class_string_to_array($variables);
-  $variables['attributes']['class'][] = 'table';
-}
-
-/**
- * Callback to add standard table classes.
- *
- * @see https://getbootstrap.com/docs/5.2/content/tables/
- */
-function bootstrap5_add_table_striped_variables(&$variables) {
-  _bootstrap5_attributes_class_string_to_array($variables);
   $variables['attributes']['class'][] = 'table-striped';
 }
 
@@ -237,7 +207,6 @@ function bootstrap5_add_table_striped_variables(&$variables) {
  */
 function bootstrap5_preprocess_system_modules_details(&$variables) {
   bootstrap5_add_table_variables($variables);
-  bootstrap5_add_table_striped_variables($variables);
 }
 
 /**
@@ -245,21 +214,12 @@ function bootstrap5_preprocess_system_modules_details(&$variables) {
  */
 function bootstrap5_preprocess_system_modules_uninstall(&$variables) {
   bootstrap5_add_table_variables($variables);
-  bootstrap5_add_table_striped_variables($variables);
 }
 
 /**
  * Implements theme_preprocess_views_ui_views_listing_table().
  */
 function bootstrap5_preprocess_views_ui_views_listing_table(&$variables) {
-  bootstrap5_add_table_variables($variables);
-  bootstrap5_add_table_striped_variables($variables);
-}
-
-/**
- * Implements theme_preprocess_table().
- */
-function bootstrap5_preprocess_table(&$variables) {
   bootstrap5_add_table_variables($variables);
 }
 

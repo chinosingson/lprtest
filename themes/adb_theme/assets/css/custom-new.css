@@ -2,7 +2,14 @@
 body {
   font-family: "Lato", sans-serif !important;
 }
-body a, body p, body h1, body h2, body h3, body h4, body b, body span {
+body a,
+body p,
+body h1,
+body h2,
+body h3,
+body h4,
+body b,
+body span {
   font-family: "Lato", sans-serif !important;
 }
 
@@ -14,15 +21,15 @@ body a, body p, body h1, body h2, body h3, body h4, body b, body span {
 }
 .menu--main ul li.nav-item a.nav-link {
   font-family: "Lato", Sans-serif;
-  font-size: 14px;
+  font-size: 10px;
   font-weight: 700;
   text-transform: uppercase;
-  color: #87CB3B;
+  color: #87cb3b;
   padding: 0px 15px 0px 15px;
 }
 
 .footer {
-  background-color: #000000;
+  background-color: rgb(84, 84, 84);
   padding-bottom: 0;
 }
 .footer p {
@@ -49,4 +56,4 @@ body a, body p, body h1, body h2, body h3, body h4, body b, body span {
 }
 .social-menu__link {
   color: #fff;
-}/*# sourceMappingURL=custom-new.css.map */
+} /*# sourceMappingURL=custom-new.css.map */

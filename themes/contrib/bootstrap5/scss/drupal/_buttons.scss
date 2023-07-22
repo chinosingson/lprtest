@@ -2,7 +2,6 @@ button {
   &.link {
     @extend .btn;
     @extend .btn-link;
-    color: $link-color;
   }
 }
 

@@ -1,8 +1,20 @@
-article, aside, figcaption, figure, footer, header, hgroup, main, nav, section {
+article,
+aside,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+main,
+nav,
+section {
 }
 
-.navbar-light .navbar-nav .active > .nav-link, .navbar-light .navbar-nav .nav-link.active, .navbar-light .navbar-nav .nav-link.show, .navbar-light .navbar-nav .show > .nav-link {
-  color: #87CB3B;
+.navbar-light .navbar-nav .active > .nav-link,
+.navbar-light .navbar-nav .nav-link.active,
+.navbar-light .navbar-nav .nav-link.show,
+.navbar-light .navbar-nav .show > .nav-link {
+  color: #87cb3b;
 }
 
 .element-populated {
@@ -10,7 +22,7 @@ article, aside, figcaption, figure, footer, header, hgroup, main, nav, section {
 }
 
 .top-header-container {
-  background-color: #87CB3B;
+  background-color: #87cb3b;
   height: 40px;
 }
 
@@ -34,13 +46,13 @@ article, aside, figcaption, figure, footer, header, hgroup, main, nav, section {
 }
 
 .top-icon-list-items.top-inline-items {
-  margin-right: calc(-9px/2);
-  margin-left: calc(-9px/2);
+  margin-right: calc(-9px / 2);
+  margin-left: calc(-9px / 2);
 }
 
 .top-icon-list-item.top-inline-items {
-  margin-right: calc(9px/2);
-  margin-left: calc(9px/2);
+  margin-right: calc(9px / 2);
+  margin-left: calc(9px / 2);
 }
 
 .footer-width-fixer {
@@ -48,7 +60,7 @@ article, aside, figcaption, figure, footer, header, hgroup, main, nav, section {
 }
 
 .page-footer.dark .footer-copyright {
-  background-color: #87CB3B;
+  background-color: #87cb3b;
   border-color: #222425;
 }
 
@@ -60,3 +72,16 @@ article, aside, figcaption, figure, footer, header, hgroup, main, nav, section {
   font-weight: 400;
 }
 
+/*  CSS for styling the submenu */
+.navbar-nav .dropdown-menu {
+  display: none;
+  position: absolute;
+  z-index: 1000;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  padding: 10px;
+}
+
+.navbar-nav .dropdown:hover .dropdown-menu {
+  display: block;
+}

@@ -10,8 +10,8 @@ or this theme's _variables_drupal.scss and recompile css!)
 
 ## FEATURES
 
-* Bootstrap 5 library ([5.3.0](https://blog.getbootstrap.com/2023/05/30/bootstrap-5-3-0/)
-  and [5.2.3](https://blog.getbootstrap.com/2022/11/22/bootstrap-5-2-3/)) included
+* Bootstrap 5 library ([5.2.3](https://blog.getbootstrap.com/2022/11/22/bootstrap-5-2-3/)
+  and [5.1.3](https://blog.getbootstrap.com/2021/10/05/bootstrap-5-1-2/)) included
 * Bootstrap 5 breakpoints
 * Bootstrap 5 integration with CKEditor
 * Bootstrap 5 configuration within admin user interface
@@ -146,34 +146,4 @@ We call a macro which calls itself to render the full tree.
     {% endif %}
   </li>
 {% endmacro %}
-```
-
-
-## Upgrade to branch 3.0.x
-
-### drush 11
-
-- When running `drush updb`, make sure you are running drush 11 otherwise you
-  might run into errors.
-- Run updates via drupal interface if using drush 10 or less.
-- If errors already appeared, use either `drush theme:uninstall claro stable`
-  and/or `drush theme:install stable9` depending on what php error you'll get.
-
-### Configuration
-
-If using configuration synchronisation, make sure your core.extension.yml contains
-
-```
-theme:
-...
-stable9: 0
-```
-
-instead of
-
-```
-theme:
-...
-stable: 0
-classy: 0
 ```
