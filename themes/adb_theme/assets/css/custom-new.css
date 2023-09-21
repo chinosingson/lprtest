@@ -1,6 +1,12 @@
+@font-face {
+    font-family: ideal sans;
+    src: url(https://www.adb.org/themes/custom/adb_2022/fonts/IdealSans-Book.woff2) format("woff2"),url(https://www.adb.org/themes/custom/adb_2022/fonts/IdealSans-Book.woff) format("woff"),url(https://www.adb.org/themes/custom/adb_2022/fonts/IdealSans-Book.ttf) format("truetype");
+    font-weight: 400;
+    font-style: normal
+}
 @import url("https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap");
 body {
-  font-family: "Lato", sans-serif !important;
+  font-family: "ideal sans", Sans-serif;
 }
 body a,
 body p,
@@ -10,24 +16,28 @@ body h3,
 body h4,
 body b,
 body span {
-  font-family: "Lato", sans-serif !important;
+  font-family: "ideal sans", Sans-serif;
 }
 
 .menu--main ul {
   padding: 0;
-  margin: 0;
+  margin: 0; auto;
   display: flex;
   justify-content: end;
+    background: #000000;
+  height: 50px;
+  max-width: 895px;
+  border-radius: 40px 40px 40px 40px;
 }
+
 .menu--main ul li.nav-item a.nav-link {
-  font-family: "Lato", Sans-serif;
+  font-family: "ideal sans", Sans-serif;
   font-size: 10px;
   font-weight: 700;
   text-transform: uppercase;
   color: #87cb3b;
-  padding: 0px 15px 0px 15px;
+  padding: 17px 15px 0px 15px;
 }
-
 .footer {
   background-color: rgb(84, 84, 84);
   padding-bottom: 0;
